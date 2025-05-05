@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple">#EB6CAA</color>
+    <color name="gradient_start">#2F2533</color>
+    <color name="gradient_end">#F9B8FF</color>
+    <color name="red">#FF5252</color>
+    <color name="lavender_blush">#B65FD9</color>
+    <color name="dark_gray">#212121</color>
+    <color name="deepGray">#1A1A1A</color>
+    <color name="dark_surface">#2D2934</color>
+
+</resources>

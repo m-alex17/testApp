@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.alex.testapp.ui.fragment.HomeFragment"
+        android:label="fragment_home"
+        android:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_likedFragment"
+            app:destination="@id/likedFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/likedFragment"
+        android:name="com.alex.testapp.ui.fragment.LikedFragment"
+        android:label="fragment_liked"
+        tools:layout="@layout/fragment_liked">
+        <action
+            android:id="@+id/action_likedFragment_to_videoPlayerFragment"
+            app:destination="@id/videoPlayerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoPlayerFragment"
+        android:name="com.alex.testapp.ui.fragment.VideoPlayerFragment"
+        android:label="fragment_video_player"
+        tools:layout="@layout/fragment_video_player" >
+    <argument
+        android:name="userName"
+        app:argType="string" />
+        <argument
+            android:name="selectedIndex"
+            app:argType="integer" />
+        <argument
+            android:name="videoSource"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

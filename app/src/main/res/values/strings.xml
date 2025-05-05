@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">testApp</string>
+
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="close">Close</string>
+    <string name="user_avatar">User Avatar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="users_title">کاربر ها</string>
+    <string name="like_text_title">لایک شده ها</string>
+    <string name="selected_user_title">کاربر اول</string>
+    <string name="liked_videos_text_title">ویدیوهای لایک شده</string>
+    <string name="video_duration_label_text">مدت زمان ویدیو:\u00A0</string>
+
+
+</resources>

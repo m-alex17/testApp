@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="39dp"
+    android:height="40dp"
+    android:viewportWidth="39"
+    android:viewportHeight="40">
+
+    <!-- Background circle with black opacity -->
+    <path
+        android:pathData="M19.5,0a19.5,20 0,1 1,0,40a19.5,20 0,1 1,0,-40"
+        android:fillColor="@color/black"
+        android:fillAlpha="0.4"
+        />
+
+    <!-- White left arrow -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M15.2623,19.358C14.9126,19.7078 14.9126,20.2922 15.2623,20.6428L23.3331,28.7343C23.6874,29.0886 24.2619,29.0886 24.6153,28.7343C24.9695,28.38 24.9695,27.8046 24.6153,27.4503L17.1856,20L24.6162,12.5506C24.9704,12.1954 24.9704,11.6209 24.6162,11.2657C24.2619,10.9114 23.6874,10.9114 23.334,11.2657L15.2623,19.358Z" />
+</vector>
