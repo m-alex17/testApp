@@ -43,7 +43,6 @@ import com.alex.testapp.util.NetworkUtils
 import com.alex.testapp.util.NonScrollLinearLayoutManager
 import com.alex.testapp.util.VideoSource
 import com.alex.testapp.util.VideoWatchTracker
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
@@ -51,8 +50,6 @@ import kotlinx.coroutines.launch
 class VideoPlayerFragment : Fragment(), VideoPlayListener {
     private var _binding: FragmentVideoPlayerBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var videoTracker: VideoWatchTracker
 
 
     private lateinit var userManager: UserManager
@@ -71,6 +68,7 @@ class VideoPlayerFragment : Fragment(), VideoPlayListener {
     private lateinit var userRepository: UserRepository
 
     private var videoSource: VideoSource = VideoSource.Home
+    private var lastHandledWatchedCount: Int = -1
 
     var currentPos = 0
     private var currentIndex: Int = 0
@@ -173,25 +171,31 @@ class VideoPlayerFragment : Fragment(), VideoPlayListener {
             currentIndex = it.getInt("selectedIndex")
             val sourceString = arguments?.getString("videoSource") ?: "Home"
             videoSource = VideoSource.valueOf(sourceString)
-
-
         }
 
-        videoTracker = VideoWatchTracker(
-            viewLifecycleOwner.lifecycleScope,
-            userRepository
-        )
+        lastHandledWatchedCount = VideoWatchTracker.getWatchedCount(userManager.currentUserId.value)
 
 
-        lifecycleScope.launch {
-            videoTracker.getWatchedCountFlow(userManager.currentUserId.value)
-                .collectLatest { count ->
-                    Log.e("VideoTracker", "User watched $count videos")
-                    val adIndex = getAdIndexForWatchedCount(count)
-                    adIndex?.let { index ->
-                        Log.e("AdLogic", "Show Ad $index")
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                VideoWatchTracker.getWatchedCountFlow(userManager.currentUserId.value)
+                    .collect { count ->
+                        if (count != lastHandledWatchedCount) {
+                            Log.e("VideoTracker", "User watched $count videos")
+                            val adIndex = getAdIndexForWatchedCount(count)
+                            adIndex?.let { index ->
+                                lastHandledWatchedCount = count
+                                val currentPosition = binding.contentRecyclerView.getCurrentVisiblePosition()
+                                findNavController().currentBackStackEntry
+                                    ?.savedStateHandle
+                                    ?.set("scroll_position", currentPosition)
+                                Log.e("AdLogic", "Show Ad $index")
+                                navigateAdvertiseFragment(index)
+                            }
+                        }
                     }
-                }
+            }
         }
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(AppBackgroundObserver())
@@ -277,6 +281,18 @@ class VideoPlayerFragment : Fragment(), VideoPlayListener {
 
     }
 
+    private fun RecyclerView.getCurrentVisiblePosition(): Int {
+        val layoutManager = this.layoutManager as? LinearLayoutManager
+        return layoutManager?.findFirstVisibleItemPosition() ?: RecyclerView.NO_POSITION
+    }
+
+    private fun navigateAdvertiseFragment(advertiseIndex: Int) {
+        if (isAdded && getView() != null) {
+            val action = VideoPlayerFragmentDirections.actionVideoPlayerFragmentToAdvertiseFragment(advertiseIndex)
+            findNavController().navigate(action)
+        }
+    }
+
     private fun goToNextVideo() {
         when (videoSource) {
             VideoSource.Home -> {
@@ -360,17 +376,18 @@ class VideoPlayerFragment : Fragment(), VideoPlayListener {
         binding.contentRecyclerView.removeOnScrollListener(recyclerViewScrollListener)
         binding.contentRecyclerView.adapter = null
         _binding = null
+        VideoWatchTracker.saveWatchData(userManager.currentUserId.value)
         super.onDestroyView()
     }
 
     override fun onVideoStarted(currentUserId: Int, videoId: Int) {
         Log.e("VideoTracker", "onVideoStarted - User ID: $currentUserId, Video ID: $videoId")
-        videoTracker.onVideoStarted(currentUserId, videoId)
+        VideoWatchTracker.onVideoStarted(currentUserId, videoId)
     }
 
     override fun onVideoStopped(currentUserId: Int, videoId: Int) {
         Log.e("VideoTracker", "onVideoStopped - User ID: $currentUserId, Video ID: $videoId")
-        videoTracker.onVideoStopped(currentUserId, videoId)
+        VideoWatchTracker.onVideoStopped(currentUserId, videoId)
 
     }
 

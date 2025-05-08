@@ -27,7 +27,6 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 class AdvertiseFragment : Fragment() {
     private var _binding: FragmentAdvertiseBinding? = null
     private val binding get() = _binding!!
@@ -38,6 +37,7 @@ class AdvertiseFragment : Fragment() {
     private lateinit var timeWatcher: AdvertiseTimeWatcher
 
     private var uiUpdateJob: Job? = null
+    private var adIndex: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +60,9 @@ class AdvertiseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            adIndex =  it.getInt("selectedAdvertiseIndex",0)
+        }
 
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -84,7 +87,7 @@ class AdvertiseFragment : Fragment() {
         advertiseViewModel.advertises.observe(viewLifecycleOwner) { adList ->
             if (adList.size > 1) {
                 Log.e("Advertise", "" + adList.size)
-                val secondAd = adList[0]
+                val secondAd = adList[adIndex]
                 playAdVideo(secondAd.url)
                 monitorAdWatchTime()
             }

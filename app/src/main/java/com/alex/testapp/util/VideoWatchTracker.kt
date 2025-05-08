@@ -3,17 +3,24 @@ package com.alex.testapp.util
 import android.util.Log
 import com.alex.testapp.data.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
-class VideoWatchTracker(
-    private val coroutineScope: CoroutineScope,
-    private val userRepository: UserRepository
-) {
+object  VideoWatchTracker {
+    private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private lateinit var userRepository: UserRepository
+
+    fun init(repo: UserRepository) {
+        userRepository = repo
+
+    }
 
     private val watchedCountFlows = ConcurrentHashMap<Int, MutableStateFlow<Int>>()
 
@@ -145,5 +152,23 @@ class VideoWatchTracker(
                 }
             }
         }
+    }
+
+    fun loadWatchCount(userId: Int) {
+        coroutineScope.launch {
+            try {
+                val savedCount = userRepository.getWatchedVideosCountFlow(userId) ?: 0
+
+                // Initialize in-memory structures
+                watchedVideos.getOrPut(userId) { Collections.newSetFromMap(ConcurrentHashMap()) }
+                watchedCounters[userId] = AtomicInteger(savedCount)
+                watchedCountFlows[userId] = MutableStateFlow(savedCount)
+
+                Log.e("VideoTracker", "Loaded watched count from DB for user $userId: $savedCount")
+            } catch (e: Exception) {
+                Log.e("VideoTracker", "Failed to load watched count for user $userId", e)
+            }
+        }
+
     }
 }

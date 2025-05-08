@@ -23,5 +23,5 @@ interface UserDao {
     suspend fun updateUser(user: UserEntity)
 
     @Query("SELECT watchedVideosCount FROM users WHERE id = :userId")
-    fun getWatchedVideosCountFlow(userId: Int): Flow<Int?>
+    fun getWatchedVideosCountFlow(userId: Int): Int?
 }

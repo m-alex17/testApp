@@ -39,6 +39,7 @@ import com.alex.testapp.ui.viewmodel.VideoViewModelFactory
 import com.alex.testapp.util.NetworkUtils
 import com.alex.testapp.util.UIHelper
 import com.alex.testapp.util.VideoSource
+import com.alex.testapp.util.VideoWatchTracker
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
@@ -50,7 +51,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var userManager: UserManager
-
+    private lateinit var switchUserUseCase: SwitchUserUseCase
     private lateinit var viewModel: UserSelectionViewModel
     private lateinit var videoViewModel: VideoViewModel
     var currentPos = 0
@@ -82,7 +83,7 @@ class HomeFragment : Fragment() {
         val userPreferences = UserPreferences(requireContext())
 
         userManager = UserManager.getInstance(Pair(userRepository, userPreferences))
-        val switchUserUseCase = SwitchUserUseCase(userManager, userPreferences)
+        switchUserUseCase = SwitchUserUseCase(userManager, userPreferences)
 
         val factory = UserSelectionViewModelFactory(userManager, switchUserUseCase)
         viewModel =
@@ -224,6 +225,7 @@ class HomeFragment : Fragment() {
         binding.tvUsername.text = user.name
         viewModel.onUserSelected(user.id)
         videoViewModel.loadLikedVideos()
+        VideoWatchTracker.loadWatchCount(userManager.currentUserId.value)
     }
 
     private fun pauseOtherVideosExcept(position: Int) {
@@ -275,6 +277,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         videoViewModel.loadLikedVideos()
+        VideoWatchTracker.loadWatchCount(userManager.currentUserId.value)
     }
 
     override fun onDestroyView() {

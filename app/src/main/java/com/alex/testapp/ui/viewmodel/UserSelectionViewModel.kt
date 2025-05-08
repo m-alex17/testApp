@@ -38,7 +38,7 @@ class UserSelectionViewModel(
     fun onUserSelected(userId: Int) {
         viewModelScope.launch {
             if (userId != userManager.currentUserId.value) {
-                switchUserUseCase(userId)
+                switchUserUseCase.invoke(userId)
             }
         }
     }

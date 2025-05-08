@@ -4,7 +4,6 @@ import com.alex.testapp.data.User
 import com.alex.testapp.data.local.UserEntity
 import com.alex.testapp.data.local.dao.UserDao
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class UserRepository(private val userDao: UserDao) {
@@ -29,7 +28,7 @@ class UserRepository(private val userDao: UserDao) {
         }
     }
 
-    fun getWatchedVideosCountFlow(userId: Int): Flow<Int?> {
+    fun getWatchedVideosCountFlow(userId: Int): Int? {
         return userDao.getWatchedVideosCountFlow(userId)
     }
 }

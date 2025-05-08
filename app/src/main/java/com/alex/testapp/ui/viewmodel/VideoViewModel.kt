@@ -56,9 +56,6 @@ class VideoViewModel(
         viewModelScope.launch {
             videoRepository.insertVideo(video)
             val liked = toggleLikeUseCase.invoke(video.id)
-
-//            loadLikedVideos()
-
         }
     }
 

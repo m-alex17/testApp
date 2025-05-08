@@ -41,11 +41,20 @@
         <argument
             android:name="videoSource"
             app:argType="string" />
+        <action
+            android:id="@+id/action_videoPlayerFragment_to_advertiseFragment"
+            app:destination="@id/advertiseFragment" />
     </fragment>
     <fragment
         android:id="@+id/advertiseFragment"
         android:name="com.alex.testapp.ui.fragment.AdvertiseFragment"
         android:label="fragment_advertise"
-        tools:layout="@layout/fragment_advertise" />
+        tools:layout="@layout/fragment_advertise" >
+        <argument
+            android:name="selectedAdvertiseIndex"
+            app:argType="integer" />
+    </fragment>
+
+
 
 </navigation>

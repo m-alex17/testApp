@@ -6,6 +6,7 @@ import com.alex.testapp.data.local.UserPreferences
 import com.alex.testapp.data.repository.UserRepository
 import com.alex.testapp.domain.manager.UserManager
 import com.alex.testapp.util.AppInitializer
+import com.alex.testapp.util.VideoWatchTracker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,9 +27,10 @@ class MyApp : Application() {
 
         applicationScope.launch {
             AppDatabase.populateInitialData(context = this@MyApp, scope = applicationScope)
-            AppInitializer.isDataReady.await() // Wait until complete(true) is called
+            AppInitializer.isDataReady.await()
             userManager.initialize()
-        }
 
+        }
+        VideoWatchTracker.init(userRepository)
     }
 }
