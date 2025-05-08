@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.AdvertiseFragment">
+
+        <FrameLayout
+            android:id="@+id/playerContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:clipToPadding="false"
+            android:clipChildren="false">
+
+            <androidx.media3.ui.PlayerView
+                android:id="@+id/playerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:resize_mode="fill"
+                app:use_controller="false" />
+
+        </FrameLayout>
+
+    <TextView
+        android:id="@+id/skipAdText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="رد آگهی: ۲ ثانیه"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:visibility="gone"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="@drawable/bg_rounded_transparent"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-medium"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toTopOf="@id/tvCurrentTime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_skipAdText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="رد آگهی"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="@drawable/bg_skip_button"
+        android:gravity="center_vertical"
+        app:drawableEndCompat="@drawable/ic_skip_ad"
+        android:drawablePadding="6dp"
+        android:elevation="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tvCurrentTime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvAdvertiseLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ویدیو تبلیغاتی"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:gravity="center_vertical"
+        android:elevation="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/tvTotalTime"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <SeekBar
+        android:id="@+id/adSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:thumbTint="@color/purple"
+        android:progressTint="@color/purple"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCurrentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textColor="#BDBDBD"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/adSeekBar"
+        app:layout_constraintStart_toStartOf="@id/adSeekBar"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="4dp" />
+
+    <TextView
+        android:id="@+id/tvTotalTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2:30"
+        android:textColor="#828282"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/adSeekBar"
+        app:layout_constraintEnd_toEndOf="@id/adSeekBar"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="4dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

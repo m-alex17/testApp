@@ -3,7 +3,6 @@ package com.alex.testapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.alex.testapp.data.repository.VideoRepository
-import com.alex.testapp.domain.manager.UserManager
 import com.alex.testapp.domain.usecase.GetLikedVideosUseCase
 import com.alex.testapp.domain.usecase.GetVideosUseCase
 import com.alex.testapp.domain.usecase.ToggleVideoLikeUseCase

@@ -16,4 +16,8 @@ object RetrofitInstance {
     val videoApiService: VideoApiService by lazy {
         retrofit.create(VideoApiService::class.java)
     }
+
+    val advertiseApiService: VideoApiService.AdvertiseApiService by lazy {
+        retrofit.create(VideoApiService.AdvertiseApiService::class.java)
+    }
 }

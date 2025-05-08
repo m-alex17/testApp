@@ -42,5 +42,10 @@
             android:name="videoSource"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/advertiseFragment"
+        android:name="com.alex.testapp.ui.fragment.AdvertiseFragment"
+        android:label="fragment_advertise"
+        tools:layout="@layout/fragment_advertise" />
 
 </navigation>
